@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Tools",
+  "name": "Tools",
+  "description": "Tools created by Aber @copy",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,14 +9,10 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "logo.png",
       "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "200x200",
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",
