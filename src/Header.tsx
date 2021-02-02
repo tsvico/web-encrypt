@@ -1,7 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import ClipboardJS from "clipboard";
+import React, { FunctionComponent, MutableRefObject, useEffect, useRef } from 'react';
 import { Link, NavLink } from "react-router-dom";
 import { apps } from "./App";
 import './Header.css';
+import { sendNotification } from "./Notification";
 
 
 let Header: FunctionComponent<{ title: string }> = ({ title }) => {
@@ -19,6 +21,20 @@ let Header: FunctionComponent<{ title: string }> = ({ title }) => {
       background.toggleAttribute("hidden");
     }
   }
+  let clipboard: MutableRefObject<ClipboardJS | null> = useRef(null);
+  useEffect(() => {
+      clipboard.current  = (new ClipboardJS("#share",{
+        text: ()=>{
+          return window.location.href
+        }
+      }));
+    clipboard.current?.on("success", event => {
+      sendNotification("success", "成功将URL复制到剪贴板")
+    })
+    return () => {
+      clipboard.current?.destroy()
+    };
+  });
 
   return (
     <header className="pure-u-1"
@@ -41,7 +57,7 @@ let Header: FunctionComponent<{ title: string }> = ({ title }) => {
         <div className="menubar menu-hidden">
           <div className="content">
             <div className="menubar-header logo" style={{ lineHeight: "2.2" }}>
-              <Link to="/">Tools</Link>
+              <Link to="/tool">Tools</Link>
             </div>
             <div className="pure-menu">
               <ul className="pure-menu-list">
@@ -57,28 +73,16 @@ let Header: FunctionComponent<{ title: string }> = ({ title }) => {
             </div>
           </div>
           <div className="footer" style={{ padding: "3em", fontFamily: "Georgia, 'Times New Roman', Times, serif" }}>
-            Copyright&copy; by AberS
+            二改自<a href="https://pixiv.app/encoding" rel="noreferrer" target="_blank">@abersheeran</a>
           </div>
         </div>
       </span>
 
       <span className="logo">{title}</span>
 
-      <span className="avatar center" title="敬请期待">
+      <span className="avatar center" id="share" title="分享">
         <div className="center" style={{ height: "1.6em" }}>
-          <svg className="icon" viewBox="0 0 1024 1024" version="1.1"
-            xmlns="http://www.w3.org/2000/svg" p-id="2914">
-            <path
-              d="M665.6 656.564706C771.011765 602.352941 843.294118 487.905882 843.294118 361.411765 843.294118
-                    177.694118 695.717647 27.105882 512 27.105882S180.705882 174.682353 180.705882 358.4c0 126.494118
-                    72.282353 243.952941 177.694118 298.164706C183.717647 707.764706 60.235294 852.329412 60.235294
-                    1002.917647h60.235294c0-180.705882 174.682353-301.176471 391.529412-301.176471s391.529412 120.470588
-                    391.529412 301.176471h60.235294c0-150.588235-123.482353-295.152941-298.164706-346.352941zM240.941176
-                    358.4c0-150.588235 120.470588-271.058824 271.058824-271.058824s271.058824 120.470588 271.058824
-                    271.058824-120.470588 271.058824-271.058824 271.058824-271.058824-123.482353-271.058824-271.058824z"
-              fill="#2c2c2c" p-id="2915">
-            </path>
-          </svg>
+        <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1213" ><path d="M860.2 673.4c-66.8 0-121.4 35.8-146.8 91.3L390.6 627.3c18.8-29.2 29.2-64.9 29.2-103.5 0-16-1.9-32-5.6-47l206.1-160c27.3 20.7 62.1 32.9 100.7 32.9 93.2 0 162.8-69.6 162.8-161.8S814 26 720.9 26 559 95.6 559 187.8c0 23.5 4.7 45.2 12.2 64l-190 145.9c-37.6-56.5-99.7-96-170.3-96C95.2 301.7 2 394.8 2 510.6s93.2 208.9 208.9 208.9c43.3 0 83.7-11.3 116.7-32l370.7 158.1C703 933.1 770.8 998 860.2 998c93.2 0 161.8-69.6 161.8-161.8s-69.6-162.8-161.8-162.8zM720.9 93.7c46.1 0 93.2 34.8 93.2 93.2s-34.8 93.2-93.2 93.2-93.2-46.1-93.2-93.2 47.1-93.2 93.2-93.2z m-510 556.2c-69.6 0-128-58.3-128-128s58.3-128 128-128 128 58.3 128 128c-1 69.6-58.4 127.9-128 128z m649.3 278.5c-58.3 0-93.2-34.8-93.2-93.2s46.1-93.2 93.2-93.2c47 0 93.2 34.8 93.2 93.2-1 58.4-35.8 93.2-93.2 93.2z" p-id="1214"></path></svg>
         </div>
       </span>
     </header>

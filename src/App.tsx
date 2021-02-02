@@ -30,7 +30,11 @@ export const App = () => (
         </Route>
       ))}
       <Route exact path="/">
-        <Header title="Index" />
+        {/* ---旧的 */}
+        {/* <Header title="Index" /> */}
+        {/* ---新的 */}
+        <Header title="Encoding" />
+        <Encoding />
       </Route>
     </Switch>
     </BrowserRouter>
